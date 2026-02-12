@@ -28,6 +28,10 @@ app.use("/guki", (req, res) =>{
     res.send("My Guki!");
 })
 
+app.use("/hikaru/naman", (req, res) =>{
+    res.send("My Hikaru & Naman!");
+})
+
 app.use("/hikaru", (req, res) =>{
     res.send("My Hikaru!");
 })
