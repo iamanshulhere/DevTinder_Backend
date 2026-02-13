@@ -2,44 +2,17 @@ const express = require("express");
 
 const app = express();
 
-
-app.use("/home", (req, res) =>{
-    res.send("Hello from Home!");
+app.get("/user", (req, res) =>{
+    res.send({first : "Ansh", second : "Kashyap"});
 })
 
-app.use("/about", (req, res) =>{
-    res.send("My about Section");
+app.post("/user", (req, res) =>{
+    res.send("Data Successfully saved to Database");
 })
 
-app.use("/dashboard", (req, res) =>{
-    res.send("My Dashboard!");
+app.delete("/user", (req, res) =>{
+    res.send("Deleted Successfully!")
 })
-
-
-app.use("/maggie", (req, res) =>{
-    res.send("My Maggie!");
-})
-
-app.use("/alireza", (req, res) =>{
-    res.send("My Alireza!");
-})
-
-app.use("/guki", (req, res) =>{
-    res.send("My Guki!");
-})
-
-app.use("/hikaru/naman", (req, res) =>{
-    res.send("My Hikaru & Naman!");
-})
-
-app.use("/hikaru", (req, res) =>{
-    res.send("My Hikaru!");
-})
-
-app.use((req, res) =>{
-    res.send("Hello from the server!");
-})  
-
 
 
 app.listen(3000, ()=>{
