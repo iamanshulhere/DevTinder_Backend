@@ -2,27 +2,25 @@ const express = require("express");
 
 const app = express();
 
-app.get("/user", 
-    (req, res, next) =>{
-    console.log("Hello");
-    res.send("MY My");
-    next();
-    },
+app.use(
+    
+)
+
+app.get(
+    "/admin/getAllData",
     (req, res) => {
-        console.log("Hello 2");
-        
+        res.send("Admin get All Data!");
     }
 )
 
-app.post("/user", (req, res) =>{
-    res.send("Data Successfully saved to Database");
-})
-
-app.delete("/user", (req, res) =>{
-    res.send("Deleted Successfully!")
-})
+app.get(
+    "/admin/delete",
+    (req, res) => {
+        res.send("Delete All Data!");
+    }
+)
 
 
 app.listen(3000, ()=>{
-    console.log("Hello!");
+    console.log("Server Created!");
 })
