@@ -2,9 +2,8 @@ const express = require("express");
 
 const app = express();
 
-app.use(
-    
-)
+const { adminAuth } = require("./middlewares/auth")
+app.use("/admin", adminAuth)
 
 app.get(
     "/admin/getAllData",
