@@ -9,6 +9,6 @@ connectDB().then(() =>{
 });
 }).catch(err => {
     console.error("Databse cannot be connected");
-});
+}); 
 
 
