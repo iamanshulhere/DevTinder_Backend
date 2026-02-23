@@ -6,9 +6,9 @@ const User = require("./models/user");
 app.post("/signup",
     async (req, res) => {
         const user = new User({
-            firstName : "Ansh",
-            email : "anshu0650@gmail.com",
-            password : "ansh@123#"
+            firstName : "OP",
+            email : "opPrakash@gmail.com",
+            password : "Omish@123#"
         });
         await user.save();
         res.send("User is Added!");
