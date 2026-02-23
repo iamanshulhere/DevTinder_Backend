@@ -11,6 +11,7 @@ app.post("/signup",
             password : "ansh@123#"
         });
         await user.save();
+        res.send("User is Added!");
     }
 );
 
@@ -25,3 +26,4 @@ connectDB().then(() =>{
 }); 
 
 
+ 
