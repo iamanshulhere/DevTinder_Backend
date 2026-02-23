@@ -10,8 +10,14 @@ app.post("/signup",
             email : "opPrakash@gmail.com",
             password : "Omish@123#"
         });
-        await user.save();
-        res.send("User is Added!");
+
+        try{
+            await user.save();
+            res.send("User is Added!");
+        }
+        catch(err){
+            res.status(400).send("Error saving the user : " + err.message);
+        }
     }
 );
 
