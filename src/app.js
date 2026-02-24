@@ -21,6 +21,33 @@ app.post("/signup",
     }
 );
 
+// get user by email
+
+app.get("/user", async (req, res) => {
+    const userEmail = req.body.email;
+
+    try{
+        const user = await User.find({email : userEmail});
+        res.send(user);
+    }
+    catch (err) {
+        res.status(400).send("Something Wrong");
+    }
+})
+
+// getting all user
+
+app.get("/feed", async (req, res) => {
+
+    try{
+        const user = await User.find({});
+        res.send(user);
+    }
+
+    catch (err) {
+        res.status(404).send("Something Wrong");
+    }
+})
 
 connectDB().then(() =>{
     console.log("Database connection established..");
