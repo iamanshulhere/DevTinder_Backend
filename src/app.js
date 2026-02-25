@@ -49,6 +49,8 @@ app.get("/feed", async (req, res) => {
     }
 });
 
+
+// delete the user
 app.delete("/user", async(req, res) => {
     const userId = req.body.userId;
 
@@ -61,6 +63,21 @@ app.delete("/user", async(req, res) => {
         res.status(404).send("Something Wrong");
     }
 })
+
+// upadate data of the user
+
+app.patch("/user", async(req, res) => {
+
+    const userId = req.body.userId;
+    const data = req.body;
+    try{
+        await User.findByIdAndUpdate(userId, data);
+        res.send("user update successfully!")
+    }
+    catch (err){
+        res.status(404).send("Something Wrong");
+    }
+})  
 
 connectDB().then(() =>{
     console.log("Database connection established..");
