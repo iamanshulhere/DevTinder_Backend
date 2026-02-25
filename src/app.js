@@ -33,7 +33,7 @@ app.get("/user", async (req, res) => {
     catch (err) {
         res.status(400).send("Something Wrong");
     }
-})
+});
 
 // getting all user
 
@@ -42,6 +42,19 @@ app.get("/feed", async (req, res) => {
     try{
         const user = await User.find({});
         res.send(user);
+    }
+
+    catch (err) {
+        res.status(404).send("Something Wrong");
+    }
+});
+
+app.delete("/user", async(req, res) => {
+    const userId = req.body.userId;
+
+    try{
+        const user = await User.findByIdAndDelete(userId);
+        res.send("user deleted successfully!");
     }
 
     catch (err) {
