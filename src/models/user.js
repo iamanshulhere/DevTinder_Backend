@@ -19,10 +19,23 @@ const userSchema = mongoose.Schema({
         minlength : 12
     },
     age : {
-        type : Number
+        type : Number,
+        min : 18
     },
     gender : {
-        type : String
+        type : String,
+        
+    },
+    photoUrl : {
+        type : String,
+        default : "https://imgs.search.brave.com/wYf16W5PU75wz2hTv4dNwQek6ZbDKoeHt7-qQcKR_VY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzlhLzBk/LzdkLzlhMGQ3ZDAw/NTdkYjBjNTRiMGM0/NDlhYmVkYTlmMTQ1/LmpwZw"
+    },
+    about : {
+        type : String,
+        default : "Add about !"
+    },
+    skills : {
+        type : [String]
     }
 });
 
