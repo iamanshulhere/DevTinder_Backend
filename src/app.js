@@ -80,7 +80,7 @@ app.patch("/user", async(req, res) => {
 })  
 
 connectDB().then(() =>{
-    console.log("Database connection established..");
+    console.log("Database connection established.."); 
     app.listen(3000, ()=>{
     console.log("Server Created!");
 });
