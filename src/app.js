@@ -68,14 +68,28 @@ app.delete("/user", async(req, res) => {
 
 app.patch("/user", async(req, res) => {
 
-    const userId = req.body.userId;
-    const data = req.body;
+    const {  userId, ...updateData  } = req.body;
+
+    if(!userId){
+        return res.status(404).send("User Id is required!");
+    }
     try{
-        await User.findByIdAndUpdate(userId, data);
-        res.send("user update successfully!")
+        const updateUser = await User.findByIdAndUpdate(
+            userId, 
+            updateData,
+            {
+                new : true,
+                runValidators : true
+            }
+        );
+        if (!updatedUser) {
+            return res.status(404).send("User not found");
+        }
+
+        res.send(updatedUser);
     }
     catch (err){
-        res.status(404).send("Something Wrong");
+        res.status(404).send(err.message);
     }
 })  
 
