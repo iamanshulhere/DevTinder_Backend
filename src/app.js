@@ -66,32 +66,32 @@ app.delete("/user", async(req, res) => {
 
 // upadate data of the user
 
-app.patch("/user", async(req, res) => {
+app.patch("/user/:userId", async(req, res) => {
+    const userId = req.params?.userId;
+    const data = req.body;
 
-    const {  userId, ...updateData  } = req.body;
-
-    if(!userId){
-        return res.status(404).send("User Id is required!");
-    }
     try{
-        const updateUser = await User.findByIdAndUpdate(
-            userId, 
-            updateData,
-            {
-                new : true,
-                runValidators : true
-            }
+        const ALLOWED_UPDATES = ["photoUrl", "about", "firstName", "skills"];
+
+        const isUpdateAllowed = Object.keys(data).every((k) => 
+            ALLOWED_UPDATES.includes(k)
         );
-        if (!updatedUser) {
-            return res.status(404).send("User not found");
+
+        if(!isUpdateAllowed){
+            throw new Error ("Update is not Allowed!");
         }
 
-        res.send(updatedUser);
+        if(data?.skills.length > 10){
+            throw new Error ("more than 10 skills are not allowed!");
+        }
+
+        await User.findByIdAndUpdate(userId, data,{ runValidators : true});
+        res.send("User Upadate Successfully!");
     }
     catch (err){
         res.status(404).send(err.message);
     }
-})  
+});  
 
 connectDB().then(() =>{
     console.log("Database connection established.."); 
