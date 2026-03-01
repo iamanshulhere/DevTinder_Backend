@@ -24,7 +24,7 @@ app.post("/signup",
 // get user by email
 
 app.get("/user", async (req, res) => {
-    const userEmail = req.body.email;
+    const userEmail = req.body.email; 
 
     try{
         const user = await User.find({email : userEmail});

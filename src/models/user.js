@@ -1,25 +1,35 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 const userSchema = mongoose.Schema({
     firstName : {
         type : String,
-        required : true
+        required : true,
+        minLength : 3,
+        maxLength : 40
     },
     lastName : {
         type : String
     },
-    email : {
-        type : String,
-        required : true,
-        unique : true
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        // lowercase: true,
+        // trim: true,
+        validate(value) {
+            if (!validator.isEmail(value)) {
+                throw new Error ("Invalid email address: " + value);
+            }
+        }
     },
     password : {
-        type : String,
+        type : String,  
         required  : true,
         minlength : 12
     },
     dob : {
-        require : true,
+        required : true,
         type : Number
     },
     age : {
@@ -37,7 +47,12 @@ const userSchema = mongoose.Schema({
     },
     photoUrl : {
         type : String,
-        default : "https://imgs.search.brave.com/wYf16W5PU75wz2hTv4dNwQek6ZbDKoeHt7-qQcKR_VY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzlhLzBk/LzdkLzlhMGQ3ZDAw/NTdkYjBjNTRiMGM0/NDlhYmVkYTlmMTQ1/LmpwZw"
+        default : "https://imgs.search.brave.com/wYf16W5PU75wz2hTv4dNwQek6ZbDKoeHt7-qQcKR_VY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzlhLzBk/LzdkLzlhMGQ3ZDAw/NTdkYjBjNTRiMGM0/NDlhYmVkYTlmMTQ1/LmpwZw",
+        validate(value) {
+            if(!validator.isURL(value)){
+                throw new Error("Invalid Photo Url : " + value);
+            }
+        }
     },
     about : {
         type : String,
