@@ -60,7 +60,7 @@ const userSchema = mongoose.Schema({
         type : String,
         default : "https://imgs.search.brave.com/wYf16W5PU75wz2hTv4dNwQek6ZbDKoeHt7-qQcKR_VY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzlhLzBk/LzdkLzlhMGQ3ZDAw/NTdkYjBjNTRiMGM0/NDlhYmVkYTlmMTQ1/LmpwZw",
         validate(value) {
-            if(!validator.isURL(value)){
+            if(value && !validator.isURL(value)){
                 throw new Error("Invalid Photo Url : " + value);
             }
         }

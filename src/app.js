@@ -3,6 +3,7 @@ const connectDB = require("./config/database");
 const app = express();
 const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
+const bcrypt = require("bcrypt");
 
 // middle ware
 app.use(express.json());
@@ -15,9 +16,12 @@ app.post("/signup",
             validateSignUpData(req);
 
             // Encrypting Password
+            const { password } = req.body;
+            const passwordHash = await bcrypt.hash(password, 10);
+            console.log(passwordHash);
 
             const user = new User(req.body);
-            await user.save();
+            await user.save(); 
             res.send("User is Added!");
         }
         catch(err){
