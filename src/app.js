@@ -2,21 +2,26 @@ const express = require("express");
 const connectDB = require("./config/database");
 const app = express();
 const User = require("./models/user");
+const { validateSignUpData } = require("./utils/validation");
 
 // middle ware
 app.use(express.json());
 
 app.post("/signup",
     async (req, res) => {
-  
-        const user = new User(req.body);
 
         try{
+            // validation of data
+            validateSignUpData(req);
+
+            // Encrypting Password
+
+            const user = new User(req.body);
             await user.save();
             res.send("User is Added!");
         }
         catch(err){
-            res.status(400).send("Error saving the user : " + err.message);
+            res.status(400).send("Error : " + err.message);
         }
     }
 );
