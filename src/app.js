@@ -3,6 +3,7 @@ const connectDB = require("./config/database");
 const app = express();
 const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
+const validator = require('validator')
 const bcrypt = require("bcrypt");
 
 // middle ware
@@ -34,6 +35,41 @@ app.post("/signup",
         }
     }
 );
+
+// Login API
+
+app.post("/login", async(req, res) => {
+    try{
+        const { email, password } = req.body;
+
+        if(!email || !validator.isEmail(email)){
+            throw new Error("Email is not valid!")
+        }
+
+        if (!password) {
+            throw new Error("Password is required!");
+        }
+
+        const user = await User.findOne({ email : email });
+
+        if(!user){
+            throw new Error("Email is not Present!");
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if(isPasswordValid){
+            res.send("Login Successful!");
+        }
+        else{
+            throw new Error("Password is not Correct");
+        }
+    }
+    catch (err){
+        res.status(404).send("Error : " + err.message);
+    }
+});
+
 
 // get user by email
 
