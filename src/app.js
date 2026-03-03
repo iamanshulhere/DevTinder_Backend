@@ -16,11 +16,16 @@ app.post("/signup",
             validateSignUpData(req);
 
             // Encrypting Password
-            const { password } = req.body;
+            const { firstName, lastName, email, password, dob} = req.body;
             const passwordHash = await bcrypt.hash(password, 10);
-            console.log(passwordHash);
 
-            const user = new User(req.body);
+            const user = new User({
+                firstName,
+                lastName,
+                email,
+                password : passwordHash,
+                dob
+            });
             await user.save(); 
             res.send("User is Added!");
         }
