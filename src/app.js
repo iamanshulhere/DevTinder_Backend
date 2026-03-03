@@ -5,9 +5,11 @@ const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
 const validator = require('validator')
 const bcrypt = require("bcrypt");
+const coikeParser = require("cookie-parser");
 
 // middle ware
 app.use(express.json());
+app.use(coikeParser());
 
 app.post("/signup",
     async (req, res) => {
@@ -50,15 +52,16 @@ app.post("/login", async(req, res) => {
             throw new Error("Password is required!");
         }
 
-        const user = await User.findOne({ email : email });
+        const user = await User.findOne({ email : email }); 
 
         if(!user){
-            throw new Error("Email is not Present!");
+            throw new Error("Invalid Credentials!");
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if(isPasswordValid){
+            res.cookie("token" , "abdfhbndvcbadfjnsajkdfbvabsjbdsjkndfcuabjfefkbhabdcjbdsfjvmanjfbhdabvnjdnvabhdbfhbfvbndvc");
             res.send("Login Successful!");
         }
         else{
@@ -70,6 +73,17 @@ app.post("/login", async(req, res) => {
     }
 });
 
+app.get("/profile", async(req, res) => {
+    const cookies = req.cookies;
+
+    const { token } = cookies;
+    // Validate my token
+
+
+
+    console.log(cookies);
+    res.send("Reading Cookies!");
+})
 
 // get user by email
 
