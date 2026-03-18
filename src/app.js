@@ -5,11 +5,12 @@ const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
 const validator = require('validator')
 const bcrypt = require("bcrypt");
-const coikeParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 
 // middle ware
 app.use(express.json());
-app.use(coikeParser());
+app.use(cookieParser());
 
 app.post("/signup",
     async (req, res) => {
@@ -61,7 +62,14 @@ app.post("/login", async(req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if(isPasswordValid){
-            res.cookie("token" , "abdfhbndvcbadfjnsajkdfbvabsjbdsjkndfcuabjfefkbhabdcjbdsfjvmanjfbhdabvnjdnvabhdbfhbfvbndvc");
+
+            // create a jwt token
+
+            const token = await jwt.sign( { _id : user._id }, "MyBestBack!@#@#12");
+            console.log(token);
+
+            // Add the token 
+            res.cookie("token" , token);
             res.send("Login Successful!");
         }
         else{
@@ -74,16 +82,34 @@ app.post("/login", async(req, res) => {
 });
 
 app.get("/profile", async(req, res) => {
-    const cookies = req.cookies;
+    try{
+        const cookies = req.cookies;
 
-    const { token } = cookies;
-    // Validate my token
+        const { token } = cookies;
 
+        if(!token){
+            throw new Error("Invalid Token");
+        }
 
+        // Validate my token
 
-    console.log(cookies);
-    res.send("Reading Cookies!");
-})
+        const decodedMessage = await jwt.verify(token, "MyBestBack!@#@#12");
+
+        console.log(decodedMessage);
+        const { _id } = decodedMessage;
+        console.log("Logged In user is : " + _id);
+
+        const user = await User.findById(_id);
+        if(!user){
+            throw new Error("Login Again");
+        }
+        res.send(user);
+    }
+
+    catch (err){
+        res.status(400).send("Error : " + err.message);
+    }
+});
 
 // get user by email
 
