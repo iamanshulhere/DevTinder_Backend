@@ -61,7 +61,7 @@ app.post("/login", async(req, res) => {
             const token = await jwt.sign( { _id : user._id }, "MyBestBack!@#@#12", { expirersIn : "1d" });
 
             // Add the token 
-            res.cookie("token" , token);
+            res.cookie("token" , token, { expires : new Date(Date.now() + 8 * 3600000) });
             res.send("Login Successful!");
         }
         else{
