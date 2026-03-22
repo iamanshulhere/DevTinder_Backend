@@ -1,4 +1,16 @@
 const express = require('express');
-const connectionRouter = express.Router();
+const requestRouter = express.Router();
 
-module.exports = connectionRouter;
+const { userAuth } = require("../middlewares/auth");
+
+requestRouter.post("/sendConnectionRequest", userAuth, async(req, res) => {
+    try{
+        const user = req.user;
+        res.send(user.firstName + "Conection Stablished!");
+    }
+    catch (err){
+        res.status(400).send("Error : " + err.message);
+    }
+});
+
+module.exports = requestRouter;
